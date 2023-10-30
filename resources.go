@@ -43,6 +43,13 @@ func LoadEnvVarsAsResource(prefix string) *resource.Resource {
 				Value: attribute.StringValue(pair[1]),
 			})
 			break
+
+		case fmt.Sprintf("%s%s", prefix, EnvK8SClusterName):
+			foundAttributes = append(foundAttributes, attribute.KeyValue{
+				Key:   EnvK8SClusterName,
+				Value: attribute.StringValue(pair[1]),
+			})
+			break
 		}
 	}
 

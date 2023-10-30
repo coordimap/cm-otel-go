@@ -33,6 +33,9 @@ const (
 
 	// EnvServiceAccountType the environment variable that contains the node's service accout
 	EnvServiceAccountType = "SERVICE_ACCOUNT"
+
+	// EnvK8SClusterName the environment variable that contains the k8s cluster's name
+	EnvK8SClusterName = "K8S_CLUSTER_NAME"
 )
 
 const (
