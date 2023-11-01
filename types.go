@@ -25,6 +25,9 @@ const (
 	// EnvPodNameType the environment variable that contains the pod name
 	EnvPodNameType = "POD_NAME"
 
+	// PodNameCompleteType this is the name of the attribute that will hold the full internal name of the pod, <K8S_CLUSTER_NAME>.<NAMESPACE_NAME>.<POD_NAME>
+	PodNameCompleteType = "POD_NAME"
+
 	// EnvNamespaceNameType the environment variable that contains the namespace name
 	EnvNamespaceNameType = "NAMESPACE_NAME"
 

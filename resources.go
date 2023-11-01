@@ -13,6 +13,9 @@ import (
 // LoadEnvVarsAsResource loads all the known environment variables as resource attributes
 func LoadEnvVarsAsResource(prefix string) *resource.Resource {
 	foundAttributes := []attribute.KeyValue{}
+	hasClusterName := false
+	hasNamespace := false
+	hasPodName := false
 
 	for _, env := range os.Environ() {
 		pair := strings.SplitN(env, "=", 2)
@@ -20,6 +23,7 @@ func LoadEnvVarsAsResource(prefix string) *resource.Resource {
 		switch pair[0] {
 		case fmt.Sprintf("%s%s", prefix, EnvNamespaceNameType):
 			foundAttributes = append(foundAttributes, semconv.K8SNamespaceName(pair[1]))
+			hasNamespace = true
 			break
 
 		case fmt.Sprintf("%s%s", prefix, EnvNodeIPType):
@@ -35,6 +39,7 @@ func LoadEnvVarsAsResource(prefix string) *resource.Resource {
 
 		case fmt.Sprintf("%s%s", prefix, EnvPodNameType):
 			foundAttributes = append(foundAttributes, semconv.K8SPodName(pair[1]))
+			hasPodName = true
 			break
 
 		case fmt.Sprintf("%s%s", prefix, EnvServiceAccountType):
@@ -49,8 +54,19 @@ func LoadEnvVarsAsResource(prefix string) *resource.Resource {
 				Key:   EnvK8SClusterName,
 				Value: attribute.StringValue(pair[1]),
 			})
+			hasClusterName = true
 			break
 		}
+	}
+
+	if hasClusterName && hasNamespace && hasPodName {
+		foundAttributes = append(foundAttributes, attribute.KeyValue{
+			Key: PodNameCompleteType,
+			Value: attribute.StringValue(fmt.Sprintf("%s.%s.%s",
+				os.Getenv(fmt.Sprintf("%s%s", prefix, EnvK8SClusterName)),
+				os.Getenv(fmt.Sprintf("%s%s", prefix, EnvNamespaceNameType)),
+				os.Getenv(fmt.Sprintf("%s%s", prefix, EnvNodeNameType)))),
+		})
 	}
 
 	return resource.NewWithAttributes(semconv.SchemaURL, foundAttributes...)
