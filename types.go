@@ -39,6 +39,15 @@ const (
 
 	// EnvK8SClusterName the environment variable that contains the k8s cluster's name
 	EnvK8SClusterName = "K8S_CLUSTER_NAME"
+
+	// EnvServiceName environment variable that contains the name of the service
+	EnvServiceName = "SERVICE_NAME"
+
+	// EnvTracerName contains the name of the tracer to initialize the Coordimap Otel library
+	EnvTracerName = "TRACER_NAME"
+
+	// EnvCmPrefix contains the prefix of the related env variables
+	EnvCmPrefix = "CM_PREFIX"
 )
 
 const (
