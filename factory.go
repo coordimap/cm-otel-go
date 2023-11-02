@@ -36,3 +36,15 @@ func Singleton() CMOtel {
 
 	return singleton
 }
+
+// New creates a new object to handle the traces
+func New(initialTracer trace.Tracer, serviceName string) CMOtel {
+	return &cmOtel{
+		tracer:             initialTracer,
+		serviceName:        serviceName,
+		spans:              map[string]cmSpan{},
+		relationships:      map[string]string{},
+		spanIDToNameMapper: map[string]string{},
+	}
+
+}
