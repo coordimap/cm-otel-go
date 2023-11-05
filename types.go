@@ -65,6 +65,9 @@ const (
 	OtelComponentRelationship = "coordimap.cmotel.component_relationship"
 )
 
+// ContextElement is used to set or retrieve the cmOtel value to or from the context
+type ContextElement int
+
 type cmSpan struct {
 	ctx  context.Context
 	span trace.Span
