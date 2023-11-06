@@ -16,6 +16,9 @@ const (
 
 	// SpanAttrRelationship span attribute to mark a relationship
 	SpanAttrRelationship = "coordimap.span_attr.relationship"
+
+	// SpanAttrTargetService span attribute to mark a call or connection to another service. This means an outgoing relationship.
+	SpanAttrTargetService = "coordimap.span_attr.target_service"
 )
 
 const (
@@ -106,7 +109,7 @@ type cmOtel struct {
 
 // CMOtel The interface that helps manage Coordimap spans
 type CMOtel interface {
-	NewSpan(opts ...SpanOption) (trace.Span, error)
+	NewSpan(opts ...SpanOption) (trace.Span, context.Context)
 	EndSpan(name string, opts ...trace.SpanEndOption) error
 	GetSpanContext(name string) (context.Context, error)
 	SpanExists(name string) bool

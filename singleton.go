@@ -63,7 +63,7 @@ func WithParentSpanName(name string) SpanOption {
 	}
 }
 
-func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, error) {
+func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, context.Context) {
 	spanOpts := &newSpanOpts{
 		ctx:        context.Background(),
 		name:       "",
@@ -74,9 +74,7 @@ func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, error) {
 	newSpanOpts := []trace.SpanStartOption{}
 
 	for _, opt := range opts {
-		if err := opt(spanOpts); err != nil {
-			return nil, err
-		}
+		opt(spanOpts)
 	}
 
 	hasParentConfig := false
@@ -84,7 +82,7 @@ func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, error) {
 
 	if spanOpts.parentName != "" {
 		if !cm.SpanExists(spanOpts.parentName) {
-			return nil, fmt.Errorf("span %s does not exist", spanOpts.parentName)
+			return nil, context.TODO()
 		}
 
 		spanOpts.ctx = cm.spans[spanOpts.parentName].ctx
@@ -99,12 +97,10 @@ func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, error) {
 			parentSpanID = link.SpanContext.SpanID().String()
 			parentName, ok := cm.spanIDToNameMapper[parentSpanID]
 
-			if !ok {
-				return nil, fmt.Errorf("cannot find the name of the parent spanID %s from the context", parentSpanID)
+			if ok {
+				spanOpts.parentName = parentName
+				hasParentConfig = true
 			}
-
-			spanOpts.parentName = parentName
-			hasParentConfig = true
 		}
 	}
 
@@ -137,7 +133,6 @@ func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, error) {
 		newSpanOpts...,
 	)
 
-	trace.SpanFromContext(context.Background())
 	cm.spans[spanOpts.name] = cmSpan{
 		ctx:  ctx,
 		span: span,
@@ -145,7 +140,7 @@ func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, error) {
 
 	cm.spanIDToNameMapper[cm.spans[spanOpts.name].span.SpanContext().SpanID().String()] = spanOpts.name
 
-	return span, nil
+	return span, ctx
 }
 
 func (cm *cmOtel) SpanExists(name string) bool {
