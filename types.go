@@ -51,6 +51,9 @@ const (
 
 	// EnvCmPrefix contains the prefix of the related env variables
 	EnvCmPrefix = "CM_PREFIX"
+
+	// EnvServiceNamePrefix preferrably to be used in order to uniquely identify the services
+	EnvServiceNamePrefix = "SERVICE_NAME_PREFIX"
 )
 
 const (
@@ -79,11 +82,12 @@ type cmSpan struct {
 }
 
 type newSpanOpts struct {
-	ctx        context.Context
-	name       string
-	parentName string
-	to         []string
-	from       []string
+	ctx          context.Context
+	name         string
+	parentName   string
+	to           []string
+	internalFrom []string
+	externalFrom []string
 }
 
 type addComponentOpts struct {
