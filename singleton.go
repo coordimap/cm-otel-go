@@ -11,10 +11,18 @@ import (
 	"go.opentelemetry.io/otel/trace"
 )
 
-// WithSpanRelationshipFrom the span names that are related, i.e. come after, this span.
-func WithSpanRelationshipFrom(from string) SpanOption {
+// WithSpanInternalRelationshipFrom the span names that are related, i.e. come after, this span.
+func WithSpanInternalRelationshipFrom(from string) SpanOption {
 	return func(opt *newSpanOpts) error {
-		opt.from = append(opt.from, from)
+		opt.internalFrom = append(opt.internalFrom, from)
+		return nil
+	}
+}
+
+// WithSpanExternalRelationshipFrom the span names that are related, i.e. come after, this span.
+func WithSpanExternalRelationshipFrom(from string) SpanOption {
+	return func(opt *newSpanOpts) error {
+		opt.externalFrom = append(opt.externalFrom, from)
 		return nil
 	}
 }
@@ -65,11 +73,12 @@ func WithParentSpanName(name string) SpanOption {
 
 func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, context.Context) {
 	spanOpts := &newSpanOpts{
-		ctx:        context.Background(),
-		name:       "",
-		parentName: "",
-		to:         []string{},
-		from:       []string{},
+		ctx:          context.Background(),
+		name:         "",
+		parentName:   "",
+		to:           []string{},
+		internalFrom: []string{},
+		externalFrom: []string{},
 	}
 	newSpanOpts := []trace.SpanStartOption{}
 
@@ -114,7 +123,16 @@ func (cm *cmOtel) NewSpan(opts ...SpanOption) (trace.Span, context.Context) {
 
 	spanLinks := []trace.Link{}
 
-	for _, from := range spanOpts.from {
+	for _, internalFrom := range spanOpts.internalFrom {
+		spanLinks = append(spanLinks, trace.Link{
+			SpanContext: trace.SpanContextFromContext(cm.spans[internalFrom].ctx),
+			Attributes: []attribute.KeyValue{
+				attribute.String(SpanAttrRelationship, fmt.Sprintf("%s@@@%s", cm.generateInternalName(internalFrom), cm.generateInternalName(spanOpts.name))),
+			},
+		})
+	}
+
+	for _, from := range spanOpts.externalFrom {
 		spanLinks = append(spanLinks, trace.Link{
 			SpanContext: trace.SpanContextFromContext(cm.spans[from].ctx),
 			Attributes: []attribute.KeyValue{
