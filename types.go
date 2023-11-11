@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"go.opentelemetry.io/otel/attribute"
+	semconv "go.opentelemetry.io/otel/semconv/v1.21.0"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -57,12 +58,27 @@ const (
 )
 
 const (
+	// CmOtelComponentIDKey the key that will store the ID of the component
+	CmOtelComponentIDKey = attribute.Key("cmotel.component.id")
 
+	// CmOtelComponentInternalIDKey the key that will store the internal id of the component
+	CmOtelComponentInternalIDKey = attribute.Key("cmotel.component.internal_id")
+)
+
+var (
+	// CmOtelMessagingSystemNats sets the messaging system to NATS
+	CmOtelMessagingSystemNats = semconv.MessagingSystemKey.String("NATS")
+)
+
+const (
 	// TypeSpan marks the component as an otel span
 	TypeSpan = "coordimap.otel.span"
 
 	// ComponentType marks the component as a coordimap component
 	ComponentType = "coordimap.cmotel.component_type"
+
+	// ComponentTypeKey marks the component as a coordimap component
+	ComponentTypeKey = attribute.Key(ComponentType)
 
 	// ComponentRelationshipSkipInsert represents a relationship between two components
 	ComponentRelationshipSkipInsert = "coordimap.cmotel.component_relationship_skipinsert"
