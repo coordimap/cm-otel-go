@@ -21,7 +21,7 @@ func LoadEnvVarsAsResource(prefix string) *resource.Resource {
 		pair := strings.SplitN(env, "=", 2)
 
 		switch pair[0] {
-		case fmt.Sprintf("%s%s", prefix, EnvNamespaceNameType):
+		case fmt.Sprintf("%s%s", prefix, EnvK8SNamespaceName):
 			foundAttributes = append(foundAttributes, semconv.K8SNamespaceName(pair[1]))
 			hasNamespace = true
 			break
@@ -64,7 +64,7 @@ func LoadEnvVarsAsResource(prefix string) *resource.Resource {
 			Key: PodNameCompleteType,
 			Value: attribute.StringValue(fmt.Sprintf("%s.%s.%s",
 				os.Getenv(fmt.Sprintf("%s%s", prefix, EnvK8SClusterName)),
-				os.Getenv(fmt.Sprintf("%s%s", prefix, EnvNamespaceNameType)),
+				os.Getenv(fmt.Sprintf("%s%s", prefix, EnvK8SNamespaceName)),
 				os.Getenv(fmt.Sprintf("%s%s", prefix, EnvNodeNameType)))),
 		})
 	}

@@ -32,8 +32,8 @@ const (
 	// PodNameCompleteType this is the name of the attribute that will hold the full internal name of the pod, <K8S_CLUSTER_NAME>.<NAMESPACE_NAME>.<POD_NAME>
 	PodNameCompleteType = "POD_NAME"
 
-	// EnvNamespaceNameType the environment variable that contains the namespace name
-	EnvNamespaceNameType = "NAMESPACE_NAME"
+	// EnvK8SNamespaceName the environment variable that contains the namespace name
+	EnvK8SNamespaceName = "NAMESPACE_NAME"
 
 	// EnvNodeIPType the environment variable that contains the node's primary IP
 	EnvNodeIPType = "NODE_IP"
