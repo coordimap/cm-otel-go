@@ -91,6 +91,9 @@ var (
 
 	// ComponentTypeGeneric The generic type for any component
 	ComponentTypeGeneric = CmotelComponentTypeKey.String("coordimap.asset.generic")
+
+	// ComponentTypeGenericContainer The generic container used by default
+	ComponentTypeGenericContainer = CmotelComponentTypeKey.String("coordimap.asset.generic_container")
 )
 
 type contextKey string
