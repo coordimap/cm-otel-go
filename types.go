@@ -90,7 +90,7 @@ var (
 	CmOtelMessagingSystemNats = semconv.MessagingSystemKey.String("NATS")
 
 	// ComponentTypeGeneric The generic type for any component
-	ComponentTypeGeneric = CmotelComponentTypeKey.String("coordimap.cmotel.component_type.generic")
+	ComponentTypeGeneric = CmotelComponentTypeKey.String("coordimap.asset.generic")
 )
 
 type contextKey string
