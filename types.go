@@ -65,17 +65,15 @@ const (
 	CmOtelComponentInternalIDKey = attribute.Key("cmotel.component.internal_id")
 )
 
-var (
-	// CmOtelMessagingSystemNats sets the messaging system to NATS
-	CmOtelMessagingSystemNats = semconv.MessagingSystemKey.String("NATS")
-)
-
 const (
 	// TypeSpan marks the component as an otel span
 	TypeSpan = "coordimap.otel.span"
 
 	// ComponentType marks the component as a coordimap component
 	ComponentType = "coordimap.cmotel.component_type"
+
+	// CmotelComponentTypeKey Attribute key for the coordimap component type
+	CmotelComponentTypeKey = attribute.Key("coordimap.cmotel.component_type")
 
 	// ComponentTypeKey marks the component as a coordimap component
 	ComponentTypeKey = attribute.Key(ComponentType)
@@ -85,6 +83,14 @@ const (
 
 	// OtelComponentRelationship represents a relationship between otel components
 	OtelComponentRelationship = "coordimap.cmotel.component_relationship"
+)
+
+var (
+	// CmOtelMessagingSystemNats sets the messaging system to NATS
+	CmOtelMessagingSystemNats = semconv.MessagingSystemKey.String("NATS")
+
+	// ComponentTypeGeneric The generic type for any component
+	ComponentTypeGeneric = CmotelComponentTypeKey.String("coordimap.cmotel.component_type.generic")
 )
 
 type contextKey string
