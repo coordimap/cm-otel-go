@@ -83,17 +83,17 @@ const (
 
 	// OtelComponentRelationship represents a relationship between otel components
 	OtelComponentRelationship = "coordimap.cmotel.component_relationship"
+
+	// ComponentTypeGeneric The generic type for any component
+	ComponentTypeGeneric = "coordimap.asset.generic"
+
+	// ComponentTypeGenericContainer The generic container used by default
+	ComponentTypeGenericContainer = "coordimap.asset.generic_container"
 )
 
 var (
 	// CmOtelMessagingSystemNats sets the messaging system to NATS
 	CmOtelMessagingSystemNats = semconv.MessagingSystemKey.String("NATS")
-
-	// ComponentTypeGeneric The generic type for any component
-	ComponentTypeGeneric = CmotelComponentTypeKey.String("coordimap.asset.generic")
-
-	// ComponentTypeGenericContainer The generic container used by default
-	ComponentTypeGenericContainer = CmotelComponentTypeKey.String("coordimap.asset.generic_container")
 )
 
 type contextKey string
