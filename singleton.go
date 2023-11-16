@@ -303,7 +303,7 @@ func (cm *cmOtel) generateInternalName(name string) string {
 		return name
 	}
 
-	return fmt.Sprintf("%s@%s", cm.serviceName, name)
+	return fmt.Sprintf("%s@%s", GetServiceName(cm.serviceName), name)
 }
 
 // AddRemoteSpanCtx load the remote span context and name in the library in order to use it for relationships
