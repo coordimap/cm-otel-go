@@ -247,6 +247,15 @@ func (cm *cmOtel) AddComponent(opts ...addComponentOptionType) error {
 		return errors.New("either span or the span name must be provided")
 	}
 
+	// if span is not set but the spanName is then try to retrieve it
+	if options.span == nil && options.spanName != "" {
+		if !cm.SpanExists(options.spanName) {
+			return fmt.Errorf("span %s does not exist", options.spanName)
+		}
+
+		options.span = cm.spans[options.spanName].span
+	}
+
 	// check if span is set then get the span name from it's ID
 	if options.span != nil {
 		spanID := options.span.SpanContext().SpanID().String()
