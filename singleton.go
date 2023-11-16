@@ -279,10 +279,12 @@ func (cm *cmOtel) AddComponent(opts ...addComponentOptionType) error {
 		return errors.Join(errors.New("cannot marshal the component"), errMarshaledNewComponent)
 	}
 
-	options.span.SetAttributes(attribute.KeyValue{
-		Key:   ComponentType,
-		Value: attribute.StringValue(string(marshaledNewComponent)),
-	})
+	options.span.SetAttributes([]attribute.KeyValue{
+		{
+			Key:   ComponentType,
+			Value: attribute.StringValue(string(marshaledNewComponent)),
+		},
+	}...)
 
 	return nil
 }
