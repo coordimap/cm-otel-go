@@ -14,7 +14,7 @@ func GetEnvWithPrefix(prefix string, env string) string {
 
 // GetServiceName returns the service name based on the unique service prefix.
 func GetServiceName(name string) string {
-	return fmt.Sprintf("%s%s", GetUniqueServicePrefix(), name)
+	return fmt.Sprintf("%s.%s", GetUniqueServicePrefix(), name)
 }
 
 // GetUniqueServicePrefix returns the prefix that will be used to name the service and any other remote services that are being called. It takes into account the environment variables being set.
@@ -30,7 +30,7 @@ func GetUniqueServicePrefix() string {
 	k8sClusterName := GetEnvWithPrefix(envPrefix, EnvK8SClusterName)
 	k8sNamespace := GetEnvWithPrefix(envPrefix, EnvK8SNamespaceName)
 	if k8sClusterName != "" && k8sNamespace != "" {
-		return fmt.Sprintf("%s%s", k8sClusterName, k8sNamespace)
+		return fmt.Sprintf("%s.%s", k8sClusterName, k8sNamespace)
 	}
 
 	return ""
