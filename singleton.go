@@ -290,7 +290,7 @@ func (cm *cmOtel) AddComponent(opts ...addComponentOptionType) error {
 
 	options.span.SetAttributes([]attribute.KeyValue{
 		{
-			Key:   ComponentType,
+			Key:   SpanAttrComponent,
 			Value: attribute.StringValue(string(marshaledNewComponent)),
 		},
 	}...)
