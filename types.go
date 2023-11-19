@@ -53,6 +53,9 @@ const (
 	// EnvCmPrefix contains the prefix of the related env variables
 	EnvCmPrefix = "CM_PREFIX"
 
+	// EnvTraceParentsMapHeaderName contains the header name where the spans will be stored
+	EnvTraceParentsMapHeaderName = "x-COORDIMAP-SPANS"
+
 	// EnvServiceNamePrefix preferrably to be used in order to uniquely identify the services
 	EnvServiceNamePrefix = "SERVICE_NAME_PREFIX"
 )
