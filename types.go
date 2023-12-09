@@ -92,6 +92,9 @@ const (
 
 	// ComponentTypeGenericContainer The generic container used by default
 	ComponentTypeGenericContainer = "coordimap.asset.generic_container"
+
+	// ComponentTypeHTTPRestGeneric The HTTP REST component
+	ComponentTypeHTTPRestGeneric = "coordimap.asset.http_rest"
 )
 
 var (
