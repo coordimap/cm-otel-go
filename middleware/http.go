@@ -23,7 +23,7 @@ func CoordimapMiddleware(next http.Handler) http.Handler {
 		traceParentsMap, errTraceParentsMap := cmotel.UnmarshalToSpanMap(r.Header.Get(cmotel.EnvTraceParentsMapHeaderName))
 		if errTraceParentsMap == nil {
 			for key, val := range traceParentsMap {
-				if errSet := cmotel.Singleton().SetSpanFromTraceparent(key, val); errSet != nil {
+				if errSet := cmOtel.SetSpanFromTraceparent(key, val); errSet != nil {
 					fmt.Printf("could not set span %s from traceparent because %s", key, errSet.Error())
 				}
 			}
